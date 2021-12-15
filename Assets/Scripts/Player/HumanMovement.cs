@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,8 +7,7 @@ public class HumanMovement : MonoBehaviour
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _sprintSpeed = 15f;
     [SerializeField] private float _rotationSpeed = 5f;
-
-    private Camera _camera;
+    [SerializeField] private Camera _camera;
     private Rigidbody _rb;
     private bool _isGrounded = true;
     private bool _isSprinting = false;
@@ -23,7 +23,6 @@ public class HumanMovement : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _camera = Camera.main;
     }
     private void OnEnable()
     {
@@ -78,7 +77,9 @@ public class HumanMovement : MonoBehaviour
             _isMoving = (_rb.velocity.x > 0 || _rb.velocity.x < 0 || _rb.velocity.z > 0 || _rb.velocity.z < 0 && _isGrounded);
             if (rayDirection != Vector3.zero)
             {
-                transform.forward = Vector3.Lerp(transform.forward, rayDirection, _rotationSpeed * Time.deltaTime);
+                Quaternion rotation = Quaternion.LookRotation(rayDirection);
+                rotation.x = 0;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, _rotationSpeed * Time.deltaTime);
             }
         }
         else if(Physics.Raycast(transform.position, rayDirection, 0.5f) && _isMoving)
@@ -87,24 +88,14 @@ public class HumanMovement : MonoBehaviour
             _isMoving = false;
             _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
         }
-        if(!_isMoving && _isSprinting)
-        {
-            _isSprinting = false;
-        }
     }
     private void Sprinting_started(InputAction.CallbackContext obj)
     {
-        if (_isMoving)
-        {
-            _isSprinting = true;
-        }
+        _isSprinting = true;
     }
     private void Sprinting_performed(InputAction.CallbackContext obj)
     {
-        if (_isMoving)
-        {
-            _isSprinting = true;
-        }
+        _isSprinting = true;
     }
     private void Sprinting_canceled(InputAction.CallbackContext obj)
     {
@@ -124,7 +115,14 @@ public class HumanMovement : MonoBehaviour
     {
         get
         {
-            return _isSprinting;
+            if(!IsMoving && _isSprinting)
+            {
+                return false;
+            }
+            else
+            {
+                return _isSprinting;
+            }
         }
     }
 }

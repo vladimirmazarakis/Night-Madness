@@ -8,12 +8,7 @@ public class PlayerHumanCamera : MonoBehaviour
     [SerializeField] private GameObject _playerMesh;
     [SerializeField] private Transform _playerMeshHighestPoint;
     [SerializeField] private Transform _playerMeshLowestPoint;
-
-    private Camera _camera;
-    private void Awake()
-    {
-        _camera = Camera.main;
-    }
+    [SerializeField] private Camera _camera;
     private void Update()
     {
         PlayerMeshRadiusCheck();
