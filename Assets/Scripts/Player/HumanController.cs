@@ -6,8 +6,8 @@ using UnityEngine;
 public class HumanController : NetworkBehaviour
 {
     [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _cinemachine;
     private AudioListener _audioListener;
-
     private int _health = 100;
     private HumanMovement _humanMovement;
     private HumanAnimator _humanAnimator;
@@ -18,6 +18,7 @@ public class HumanController : NetworkBehaviour
         _audioListener = _camera.GetComponent<AudioListener>();
         if (!hasAuthority)
         {
+            _cinemachine.SetActive(false);
             _humanMovement.enabled = false;
             _humanAnimator.enabled = false;
             _camera.enabled = false;
@@ -32,7 +33,7 @@ public class HumanController : NetworkBehaviour
     {
         if(_health <= 0)
         {
-            Destroy(transform.parent.gameObject);
+            Destroy(transform.gameObject);
         }
     }
 
@@ -44,6 +45,16 @@ public class HumanController : NetworkBehaviour
     {
         _health -= DamageAmount;
     }
+
+    public void DisableAllSelfComponents() 
+    {
+        _cinemachine.SetActive(false);
+        _humanMovement.enabled = false;
+        _humanAnimator.enabled = false;
+        _camera.enabled = false;
+        _audioListener.enabled = false;
+    }
+
     /// <summary>
     /// User health (Only-get).
     /// </summary>

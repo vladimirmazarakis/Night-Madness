@@ -4,9 +4,8 @@ using UnityEngine.InputSystem;
 public class KillerMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 5f;
-    [SerializeField] private float _rotationSpeed = 5f;
+    [SerializeField] private Camera _camera;
 
-    private Camera _camera;
     private Rigidbody _rb;
     private bool _isGrounded = true;
     private bool _isMoving = false;
@@ -22,11 +21,9 @@ public class KillerMovement : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _camera = Camera.main;
     }
     private void OnEnable()
     {
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + 10, transform.localEulerAngles.z);
         _movement = _inputMaster.Shared.Movement;
         _movement.Enable();
     }

@@ -1,9 +1,11 @@
+using Cinemachine;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class KillerController : MonoBehaviour
+public class KillerController : NetworkBehaviour
 {
     [Header("Attack Settings")]
     [SerializeField] private LayerMask _attackRayLayerMask;
@@ -11,14 +13,28 @@ public class KillerController : MonoBehaviour
     [SerializeField] private float _attackDelay = 1f;
     [SerializeField] private float _attackRadius = 0.5f;
     [SerializeField] private int _damage = 100;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _cinemachine;
     private InputMaster _inputMaster;
     private InputAction _attack;
     private bool _isAttacking = false;
     private bool _canAttack = true;
+    private KillerMovement _killerMovement;
     #region Assignings.
     private void Awake()
     {
         _inputMaster = new InputMaster();
+    }
+    private void Start()
+    {
+        _killerMovement = GetComponent<KillerMovement>();
+        if (!hasAuthority)
+        {
+            _cinemachine.SetActive(false);
+            _killerMovement.enabled = false;
+            _camera.GetComponent<AudioListener>().enabled = false;
+            _camera.enabled = false;
+        }
     }
     private void OnEnable()
     {
@@ -54,7 +70,6 @@ public class KillerController : MonoBehaviour
     {
         Vector3 origin = _attackRayOrigin.position;
         Vector3 direction = transform.forward;
-        RaycastHit rayHit;
         Collider[] attackColliders = Physics.OverlapSphere(origin, _attackRadius, _attackRayLayerMask);
         if (attackColliders != null)
         {
@@ -89,6 +104,15 @@ public class KillerController : MonoBehaviour
         }
     }
     #endregion
+
+    public void DisableAllSelfComponents()
+    {
+        _cinemachine.SetActive(false);
+        _killerMovement.enabled = false;
+        _camera.GetComponent<AudioListener>().enabled = false;
+        GetComponent<DoctorAnimator>().enabled = false;
+        _camera.enabled = false;
+    }
 
     private void OnDrawGizmosSelected()
     {

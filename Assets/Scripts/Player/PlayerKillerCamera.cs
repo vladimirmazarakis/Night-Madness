@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PlayerKillerCamera : MonoBehaviour
 {
-    private Camera _camera;
-    void Start()
-    {
-        _camera = Camera.main;
-    }
+    [SerializeField] private Camera _camera;
     void Update()
     {
         UpdateCamera();
