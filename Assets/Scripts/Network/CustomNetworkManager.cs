@@ -8,7 +8,8 @@ public class CustomNetworkManager : NetworkManager
 {
     [SerializeField] private Transform _list;
     private List<NetworkConnection> _connectionsList = new List<NetworkConnection>();
-    private int? _killerConnectionId = null; 
+    private int? _killerConnectionId = null;
+    private int _playerLoadedGameScene = 0;
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         if(SceneManager.GetActiveScene().name == "Game")
@@ -16,7 +17,7 @@ public class CustomNetworkManager : NetworkManager
             if(conn.connectionId == _killerConnectionId)
             {
                 GameObject gameObject = Instantiate(spawnPrefabs[1], GetStartPosition().position, Quaternion.identity);
-                gameObject.name = $"{spawnPrefabs[2].name} [connId={conn.connectionId}]";
+                gameObject.name = $"{spawnPrefabs[1].name} [connId={conn.connectionId}]";
                 NetworkServer.AddPlayerForConnection(conn, gameObject);
             }
             else
@@ -65,6 +66,14 @@ public class CustomNetworkManager : NetworkManager
         }
         base.OnServerSceneChanged(sceneName);
     }
+    public override void OnServerReady(NetworkConnection conn)
+    {
+        if(SceneManager.GetActiveScene().name == "Game")
+        {
+            _playerLoadedGameScene += 1;
+        }
+        base.OnServerReady(conn);
+    }
     public override void OnClientSceneChanged(NetworkConnection conn)
     {
         if (!NetworkClient.ready)
@@ -74,5 +83,13 @@ public class CustomNetworkManager : NetworkManager
             
         }
     }
-    
+
+    public bool AreAllPlayersLoaded 
+    {
+        get 
+        {
+            return (_playerLoadedGameScene == numPlayers);
+        } 
+    }
+
 }

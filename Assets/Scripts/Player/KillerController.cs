@@ -27,13 +27,9 @@ public class KillerController : NetworkBehaviour
     }
     private void Start()
     {
-        _killerMovement = GetComponent<KillerMovement>();
         if (!hasAuthority)
         {
-            _cinemachine.SetActive(false);
-            _killerMovement.enabled = false;
-            _camera.GetComponent<AudioListener>().enabled = false;
-            _camera.enabled = false;
+            DisableAllSelfComponents();
         }
     }
     private void OnEnable()
@@ -108,7 +104,8 @@ public class KillerController : NetworkBehaviour
     public void DisableAllSelfComponents()
     {
         _cinemachine.SetActive(false);
-        _killerMovement.enabled = false;
+        GetComponent<KillerMovement>().enabled = false;
+        GetComponent<PlayerKillerCamera>().enabled = false;
         _camera.GetComponent<AudioListener>().enabled = false;
         GetComponent<DoctorAnimator>().enabled = false;
         _camera.enabled = false;
