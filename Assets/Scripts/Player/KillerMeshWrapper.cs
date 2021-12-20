@@ -16,6 +16,7 @@ public class KillerMeshWrapper : MonoBehaviour
     /// </summary>
     public void Attack()
     {
+        Debug.Log("Started attacking...");
         _killerController.Attack();
     }
 }

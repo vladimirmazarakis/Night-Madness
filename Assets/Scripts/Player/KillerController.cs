@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class KillerController : NetworkBehaviour
+public class KillerController : MonoBehaviour
 {
     [Header("Attack Settings")]
     [SerializeField] private LayerMask _attackRayLayerMask;
@@ -27,10 +27,6 @@ public class KillerController : NetworkBehaviour
     }
     private void Start()
     {
-        if (!hasAuthority)
-        {
-            DisableAllSelfComponents();
-        }
     }
     private void OnEnable()
     {
@@ -64,6 +60,7 @@ public class KillerController : NetworkBehaviour
     /// </summary>
     public void Attack()
     {
+        Debug.Log("Attacking on KillerController");
         Vector3 origin = _attackRayOrigin.position;
         Vector3 direction = transform.forward;
         Collider[] attackColliders = Physics.OverlapSphere(origin, _attackRadius, _attackRayLayerMask);
@@ -77,7 +74,7 @@ public class KillerController : NetworkBehaviour
                     bool isHumanControllerAvailable = ac.transform.gameObject.TryGetComponent<HumanController>(out hitHuman);
                     if (!isHumanControllerAvailable) return;
                     hitHuman.GiveDamage(_damage);
-                    Debug.Log("Human was found, and damage was taken.");
+                    Debug.Log("Human was found, and damage was given.");
                     break;
                 }
             }
@@ -85,7 +82,7 @@ public class KillerController : NetworkBehaviour
         }
         else
         {
-            Debug.Log("Human was not found!");
+            Debug.LogWarning("Human was not found!");
             return;
         }
     }
@@ -107,7 +104,7 @@ public class KillerController : NetworkBehaviour
         GetComponent<KillerMovement>().enabled = false;
         GetComponent<PlayerKillerCamera>().enabled = false;
         _camera.GetComponent<AudioListener>().enabled = false;
-        GetComponent<DoctorAnimator>().enabled = false;
+        GetComponent<KillerNetworkAnimator>().enabled = false;
         _camera.enabled = false;
     }
 

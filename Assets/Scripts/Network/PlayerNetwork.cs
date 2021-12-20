@@ -37,7 +37,7 @@ public class PlayerNetwork : NetworkBehaviour
                 if(killer != null)
                 {
                     Debug.Log($"Was killer found: {((killer != null) ? true : false)}");
-                    killer.GetComponent<KillerController>().DisableAllSelfComponents();
+                    killer.GetComponent<KillerNetworkController>().DisableAllSelfComponents();
                 }
             }
             else if (playerType == PlayerType.Killer)
@@ -48,7 +48,7 @@ public class PlayerNetwork : NetworkBehaviour
                     Debug.Log($"Found humen on server: {humen.Count()}");
                     foreach (var human in humen)
                     {
-                        human.GetComponent<HumanController>().DisableAllSelfComponents();
+                        human.GetComponent<HumanNetworkController>().DisableAllSelfComponents();
                     }
                 } 
             }

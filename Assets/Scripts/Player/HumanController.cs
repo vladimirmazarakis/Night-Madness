@@ -1,14 +1,16 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanController : NetworkBehaviour
+public class HumanController : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
     [SerializeField] private GameObject _cinemachine;
     private AudioListener _audioListener;
     private int _health = 100;
+    private bool _isKnocked = false;
     private HumanMovement _humanMovement;
     private HumanAnimator _humanAnimator;
     private void Start()
@@ -16,14 +18,6 @@ public class HumanController : NetworkBehaviour
         _humanMovement = GetComponent<HumanMovement>();
         _humanAnimator = GetComponent<HumanAnimator>();
         _audioListener = _camera.GetComponent<AudioListener>();
-        if (!hasAuthority)
-        {
-            _cinemachine.SetActive(false);
-            _humanMovement.enabled = false;
-            _humanAnimator.enabled = false;
-            _camera.enabled = false;
-            _audioListener.enabled = false;
-        }
     }
     private void Update()
     {
@@ -31,9 +25,10 @@ public class HumanController : NetworkBehaviour
     }
     private void HealthCheck()
     {
-        if(_health <= 0)
+        if(_health <= 0 && !_isKnocked)
         {
-            Destroy(transform.gameObject);
+            _isKnocked = true;
+            gotKnocked.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -65,4 +60,8 @@ public class HumanController : NetworkBehaviour
             return _health; 
         } 
     }
+
+    #region Events
+    public event EventHandler gotKnocked;
+    #endregion
 }
