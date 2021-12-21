@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Human
   - Killer
+  - Wood
   layers:
   - Default
   - TransparentFX
