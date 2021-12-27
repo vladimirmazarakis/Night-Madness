@@ -1,4 +1,5 @@
 using Mirror;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,9 +12,11 @@ public class HumanMovement : MonoBehaviour
     private Rigidbody _rb;
     private bool _isGrounded = true;
     private bool _isSprinting = false;
+    private bool _canSprint = true;
     private bool _isMoving = false;
     private InputMaster _inputMaster;
     private InputAction _movement;
+    private HumanController _controller;
 
     #region Assignings.
     private void Awake()
@@ -23,6 +26,8 @@ public class HumanMovement : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _controller = GetComponent<HumanController>();
+        _controller.gotKnocked += OnGotKnocked;
     }
     private void OnEnable()
     {
@@ -89,13 +94,30 @@ public class HumanMovement : MonoBehaviour
             _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
         }
     }
+    #endregion
+
+    #region Events
+    private void OnGotKnocked(object sender, System.EventArgs e)
+    {
+        _canSprint = false;
+    }
     private void Sprinting_started(InputAction.CallbackContext obj)
     {
-        _isSprinting = true;
+        if (_canSprint)
+        {
+            _isSprinting = true;
+        }
+        else
+        {
+            _isSprinting = false;
+        }
     }
     private void Sprinting_performed(InputAction.CallbackContext obj)
     {
-        _isSprinting = true;
+        if (_canSprint)
+        {
+            _isSprinting = true;
+        }
     }
     private void Sprinting_canceled(InputAction.CallbackContext obj)
     {
@@ -103,19 +125,20 @@ public class HumanMovement : MonoBehaviour
     }
     #endregion
 
-    public bool IsMoving 
-    { 
-        get 
+    #region Properties
+    public bool IsMoving
+    {
+        get
         {
             return _isMoving;
-        } 
+        }
     }
 
     public bool IsSprinting
     {
         get
         {
-            if(!IsMoving && _isSprinting)
+            if (!IsMoving && _isSprinting)
             {
                 return false;
             }
@@ -125,4 +148,6 @@ public class HumanMovement : MonoBehaviour
             }
         }
     }
+    #endregion
+
 }

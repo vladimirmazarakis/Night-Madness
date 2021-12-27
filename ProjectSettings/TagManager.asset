@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Human
-  - Killer
   - Wood
+  - Grass
+  - Gravel
+  - Dirt
   layers:
   - Default
   - TransparentFX
