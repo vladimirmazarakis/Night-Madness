@@ -1,0 +1,227 @@
+fileFormatVersion: 2
+guid: 3fbfeaefc053428468f89c581bcc11b4
+timeCreated: 1476372651
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Body
+    100002: //RootNode
+    100004: CATRigHub001
+    100006: CATRigHub001Bone001
+    100008: CATRigHub001Bone001Bone001
+    100010: CATRigHub001Bone001Bone001Bone001
+    100012: CATRigHub001Bone001Bone001Bone001Bone001
+    100014: CATRigHub001Bone002
+    100016: CATRigHub002
+    100018: CATRigHub002Bone001
+    100020: CATRigHub002Bone001Bone001
+    100022: CATRigHub002Bone001Bone002
+    100024: CATRigHub002Bone001Bone003
+    100026: CATRigLArm1
+    100028: CATRigLArm2
+    100030: CATRigLArmCollarbone
+    100032: CATRigLArmDigit11
+    100034: CATRigLArmDigit12
+    100036: CATRigLArmDigit13
+    100038: CATRigLArmDigit21
+    100040: CATRigLArmDigit22
+    100042: CATRigLArmDigit23
+    100044: CATRigLArmDigit31
+    100046: CATRigLArmDigit32
+    100048: CATRigLArmDigit33
+    100050: CATRigLArmDigit41
+    100052: CATRigLArmDigit42
+    100054: CATRigLArmDigit43
+    100056: CATRigLArmDigit51
+    100058: CATRigLArmDigit52
+    100060: CATRigLArmDigit53
+    100062: CATRigLArmIKTarget
+    100064: CATRigLArmPalm
+    100066: CATRigLLeg1
+    100068: CATRigLLeg2
+    100070: CATRigLLegAnkle
+    100072: CATRigLLegDigit11
+    100074: CATRigLLegPlatform
+    100076: CATRigRArm1
+    100078: CATRigRArm2
+    100080: CATRigRArmCollarbone
+    100082: CATRigRArmDigit11
+    100084: CATRigRArmDigit12
+    100086: CATRigRArmDigit13
+    100088: CATRigRArmDigit21
+    100090: CATRigRArmDigit22
+    100092: CATRigRArmDigit23
+    100094: CATRigRArmDigit31
+    100096: CATRigRArmDigit32
+    100098: CATRigRArmDigit33
+    100100: CATRigRArmDigit41
+    100102: CATRigRArmDigit42
+    100104: CATRigRArmDigit43
+    100106: CATRigRArmDigit51
+    100108: CATRigRArmDigit52
+    100110: CATRigRArmDigit53
+    100112: CATRigRArmIKTarget
+    100114: CATRigRArmPalm
+    100116: CATRigRLeg1
+    100118: CATRigRLeg2
+    100120: CATRigRLegAnkle
+    100122: CATRigRLegDigit11
+    100124: CATRigRLegPlatform
+    100126: CATRigSpine1
+    100128: CATRigSpine2
+    100130: Chainsaw
+    100132: Character001
+    100134: Eyes
+    100136: Jaw_down
+    100138: Jaw_up
+    400000: Body
+    400002: //RootNode
+    400004: CATRigHub001
+    400006: CATRigHub001Bone001
+    400008: CATRigHub001Bone001Bone001
+    400010: CATRigHub001Bone001Bone001Bone001
+    400012: CATRigHub001Bone001Bone001Bone001Bone001
+    400014: CATRigHub001Bone002
+    400016: CATRigHub002
+    400018: CATRigHub002Bone001
+    400020: CATRigHub002Bone001Bone001
+    400022: CATRigHub002Bone001Bone002
+    400024: CATRigHub002Bone001Bone003
+    400026: CATRigLArm1
+    400028: CATRigLArm2
+    400030: CATRigLArmCollarbone
+    400032: CATRigLArmDigit11
+    400034: CATRigLArmDigit12
+    400036: CATRigLArmDigit13
+    400038: CATRigLArmDigit21
+    400040: CATRigLArmDigit22
+    400042: CATRigLArmDigit23
+    400044: CATRigLArmDigit31
+    400046: CATRigLArmDigit32
+    400048: CATRigLArmDigit33
+    400050: CATRigLArmDigit41
+    400052: CATRigLArmDigit42
+    400054: CATRigLArmDigit43
+    400056: CATRigLArmDigit51
+    400058: CATRigLArmDigit52
+    400060: CATRigLArmDigit53
+    400062: CATRigLArmIKTarget
+    400064: CATRigLArmPalm
+    400066: CATRigLLeg1
+    400068: CATRigLLeg2
+    400070: CATRigLLegAnkle
+    400072: CATRigLLegDigit11
+    400074: CATRigLLegPlatform
+    400076: CATRigRArm1
+    400078: CATRigRArm2
+    400080: CATRigRArmCollarbone
+    400082: CATRigRArmDigit11
+    400084: CATRigRArmDigit12
+    400086: CATRigRArmDigit13
+    400088: CATRigRArmDigit21
+    400090: CATRigRArmDigit22
+    400092: CATRigRArmDigit23
+    400094: CATRigRArmDigit31
+    400096: CATRigRArmDigit32
+    400098: CATRigRArmDigit33
+    400100: CATRigRArmDigit41
+    400102: CATRigRArmDigit42
+    400104: CATRigRArmDigit43
+    400106: CATRigRArmDigit51
+    400108: CATRigRArmDigit52
+    400110: CATRigRArmDigit53
+    400112: CATRigRArmIKTarget
+    400114: CATRigRArmPalm
+    400116: CATRigRLeg1
+    400118: CATRigRLeg2
+    400120: CATRigRLegAnkle
+    400122: CATRigRLegDigit11
+    400124: CATRigRLegPlatform
+    400126: CATRigSpine1
+    400128: CATRigSpine2
+    400130: Chainsaw
+    400132: Character001
+    400134: Eyes
+    400136: Jaw_down
+    400138: Jaw_up
+    2300000: Chainsaw
+    2300002: Eyes
+    2300004: Jaw_down
+    2300006: Jaw_up
+    3300000: Chainsaw
+    3300002: Eyes
+    3300004: Jaw_down
+    3300006: Jaw_up
+    4300000: Chainsaw
+    4300002: Jaw_down
+    4300004: Jaw_up
+    4300006: Eyes
+    4300008: Body
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Body
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
