@@ -2375,6 +2375,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 1798370687514484758}
   _cinemachine: {fileID: 3043585411066826184}
+  _normalCapsuleColliderSettings: {fileID: 231637377994584891, guid: bb06ebd5d5dd9924abf99c50ab0a36c0, type: 3}
+  _knockedCapsuleColliderSettings: {fileID: 5264739875552475417, guid: ef3b3d7cbfd32394299e843923f18736, type: 3}
+  _isKnocked: 0
+  _health: 100
 --- !u!1 &3098659818077069794
 GameObject:
   m_ObjectHideFlags: 0
@@ -3723,6 +3727,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1c10de1f1086a1844bb288c5b2b11fe5, type: 3}
   - {fileID: 8300000, guid: cce0e9d915af3c04c85a080b38547bb9, type: 3}
   - {fileID: 8300000, guid: ec9899cdbc7243c4e884b39db9fb5334, type: 3}
+  _woodKnockedSteps:
+  - {fileID: 8300000, guid: 6d8a97a0a8f7159408f04eb9e47de577, type: 3}
+  - {fileID: 8300000, guid: 21962d526d5024749b0be8a9dd2b685a, type: 3}
+  - {fileID: 8300000, guid: 99c2fa5b42eb9fd418b6a74a49d7d544, type: 3}
+  - {fileID: 8300000, guid: af652784c646558478e52017c7838704, type: 3}
+  - {fileID: 8300000, guid: 6b9f9fd1b8756134f870911069a31929, type: 3}
   _grassSteps:
   - {fileID: 8300000, guid: 6b62898f3394fdc419d351bf4fe6d890, type: 3}
   - {fileID: 8300000, guid: 4d705c6df40ab3a438a0e850fef69ec6, type: 3}
@@ -3735,6 +3745,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7a23a231a647e544f850c20cfdc4846e, type: 3}
   - {fileID: 8300000, guid: feccd1b2e62dd5e4eb021320245cd912, type: 3}
   - {fileID: 8300000, guid: da8351481d810494a97bcd84f6b8b1d4, type: 3}
+  _grassKnockedSteps:
+  - {fileID: 8300000, guid: c3f8ee522189d694ab0aa152871439a4, type: 3}
+  - {fileID: 8300000, guid: dc2e32e2cfa41454c887939359f4b360, type: 3}
+  - {fileID: 8300000, guid: 0fdf0bbdd8d29534191321f9ece460a3, type: 3}
+  - {fileID: 8300000, guid: 4f0a7e3626bbc934286d4f932895bdfe, type: 3}
+  - {fileID: 8300000, guid: 02cd4e1f10fc69347bcadcda54733f49, type: 3}
   _gravelSteps:
   - {fileID: 8300000, guid: 44d7881762b0ab242b8b07ad0cec5e1a, type: 3}
   - {fileID: 8300000, guid: ec73aae493570164cbb0de89ad34fa9c, type: 3}
@@ -3747,6 +3763,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4d1c67c0b3b395a4c9510a5b0244c67b, type: 3}
   - {fileID: 8300000, guid: fe539e9bf74ca1d47a51c263a5e5db9e, type: 3}
   - {fileID: 8300000, guid: 7bdf47998daeb5b418bfe04b543f2960, type: 3}
+  _gravelKnockedSteps:
+  - {fileID: 8300000, guid: fca20f9b765419b49abddcb747fdad1a, type: 3}
+  - {fileID: 8300000, guid: ab0667401e402074daaad4901b9863ca, type: 3}
+  - {fileID: 8300000, guid: b1e942eff77b5b546a4dd4d551cf93cc, type: 3}
+  - {fileID: 8300000, guid: d931fa2d293965a4cb5561a92afc702b, type: 3}
+  - {fileID: 8300000, guid: debbf778c40ea014c825b889fcfaf891, type: 3}
   _dirtSteps:
   - {fileID: 8300000, guid: 80d4ca848cd1f80458c3a70887b2c2da, type: 3}
   - {fileID: 8300000, guid: f0ab520a8d1da5a499ec12852545e103, type: 3}
@@ -3759,6 +3781,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 14bfcb34cea15274986b48cd88bc9f7a, type: 3}
   - {fileID: 8300000, guid: c581b4dfa2cc67046ab3a278289afca0, type: 3}
   - {fileID: 8300000, guid: fd22592284fb9a14eb019e641f20f359, type: 3}
+  _dirtKnockedSteps:
+  - {fileID: 8300000, guid: a80fde9793b8da3469184d99e2a56f10, type: 3}
+  - {fileID: 8300000, guid: 3d6edafa4d7c6b0448963fc28ae9aa24, type: 3}
+  - {fileID: 8300000, guid: 8b6ab384c30512047abbd5687efd3a1b, type: 3}
+  - {fileID: 8300000, guid: 370cc81399a4e8743990d3bad1569b73, type: 3}
+  - {fileID: 8300000, guid: ccdb1a69ce986504bb43e225d17bd82a, type: 3}
   _stepsSoundSmooth: 0.5
 --- !u!82 &6324837594076180808
 AudioSource:
@@ -3771,7 +3799,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
