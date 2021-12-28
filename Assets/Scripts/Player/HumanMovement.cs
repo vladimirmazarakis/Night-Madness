@@ -11,6 +11,7 @@ public class HumanMovement : MonoBehaviour
     [SerializeField] private Camera _camera;
     private Rigidbody _rb;
     private bool _isGrounded = true;
+    private bool _canMove = true;
     private bool _isSprinting = false;
     private bool _canSprint = true;
     private bool _isMoving = false;
@@ -50,7 +51,10 @@ public class HumanMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        Movement();
+        if (_canMove)
+        {
+            Movement();
+        }
     }
 
     #region Movement.

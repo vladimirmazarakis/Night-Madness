@@ -53,6 +53,7 @@ public class HumanAnimator : MonoBehaviour
     private void OnHumanGotKnocked(object sender, EventArgs e)
     {
         Debug.Log("OnHumanGotKnocked event fired.");
+        _animator.SetBool("IsGettingKnocked", true);
         _isKnocked = true;
     }
     #endregion
