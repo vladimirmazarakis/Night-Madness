@@ -1,3 +1,4 @@
+using Assets.Scripts.Models;
 using Mirror;
 using System;
 using System.Collections;
@@ -8,16 +9,21 @@ public class HumanController : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
     [SerializeField] private GameObject _cinemachine;
+    [SerializeField] private CapsuleColliderSettings _normalCapsuleColliderSettings;
+    [SerializeField] private CapsuleColliderSettings _knockedCapsuleColliderSettings;
+    [Header("Test Variables")]
+    [SerializeField] private bool _isKnocked = false;
+    [SerializeField] private int _health = 100;
     private AudioListener _audioListener;
-    private int _health = 100;
-    private bool _isKnocked = false;
     private HumanMovement _humanMovement;
     private HumanAnimator _humanAnimator;
+    private CapsuleCollider _collider;
     private void Start()
     {
         _humanMovement = GetComponent<HumanMovement>();
         _humanAnimator = GetComponent<HumanAnimator>();
         _audioListener = _camera.GetComponent<AudioListener>();
+        _collider = GetComponent<CapsuleCollider>();
     }
     private void Update()
     {
@@ -29,6 +35,10 @@ public class HumanController : MonoBehaviour
         {
             _isKnocked = true;
             gotKnocked.Invoke(this, EventArgs.Empty);
+            _collider.center = _knockedCapsuleColliderSettings.Center;
+            _collider.direction = (int)_knockedCapsuleColliderSettings.Direction;
+            _collider.radius = _knockedCapsuleColliderSettings.Radius;
+            _collider.height = _knockedCapsuleColliderSettings.Height;
         }
     }
 

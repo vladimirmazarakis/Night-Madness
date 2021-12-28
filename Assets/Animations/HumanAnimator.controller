@@ -159,22 +159,22 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Injured
+    m_Name: Knocked
     m_StateMachine: {fileID: 6518834376475730624}
     m_Mask: {fileID: 0}
     m_Motions:
     - serializedVersion: 2
       m_State: {fileID: 7513488842410801921}
-      m_Motion: {fileID: 7400000, guid: 18453b36a01912d42857f894bb948aa2, type: 2}
+      m_Motion: {fileID: 7400000, guid: 6a7f97d93894c6d4d91d077c71d7df2b, type: 2}
     - serializedVersion: 2
       m_State: {fileID: -7404883745573771625}
       m_Motion: {fileID: 7400000, guid: 5e2df6965a5965b489bc861c4f89c4a5, type: 2}
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: 0
-    m_DefaultWeight: 1
+    m_DefaultWeight: 0
     m_IKPass: 0
-    m_SyncedLayerAffectsTiming: 0
+    m_SyncedLayerAffectsTiming: 1
     m_Controller: {fileID: 9100000}
 --- !u!1107 &1461238733916144109
 AnimatorStateMachine:
@@ -193,7 +193,7 @@ AnimatorStateMachine:
     m_Position: {x: 250, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8136718228710692414}
-    m_Position: {x: 520, y: -30, z: 0}
+    m_Position: {x: 530, y: -30, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -236,7 +236,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Injured
+  m_Name: Knocked
   m_ChildStates: []
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
