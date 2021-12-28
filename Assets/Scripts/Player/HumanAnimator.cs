@@ -46,6 +46,7 @@ public class HumanAnimator : MonoBehaviour
             var knockedLayerIndex = _animator.GetLayerIndex("Knocked");
             _knockedWeight = Mathf.Lerp(_knockedWeight, 1.0f, _animationLayerSmoothTime * Time.deltaTime);
             _animator.SetLayerWeight(knockedLayerIndex, _knockedWeight);
+
         }
     }
 

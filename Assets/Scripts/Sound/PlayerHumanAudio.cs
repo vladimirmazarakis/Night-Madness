@@ -39,12 +39,10 @@ public class PlayerHumanAudio : MonoBehaviour
         _controller = GetComponent<HumanController>();
         _controller.gotKnocked += OnHumanGotKnocked;
     }
-
     private void OnHumanGotKnocked(object sender, System.EventArgs e)
     {
         _isKnocked = true;
     }
-
     private void Update()
     {
         if (!_movement.IsMoving && _audioSource.volume > 0)
@@ -56,10 +54,8 @@ public class PlayerHumanAudio : MonoBehaviour
             AudioHelper.FadeIn(_audioSource, _stepsSoundSmooth);
         }
     }
-
     public void PlayStepSound()
     {
-        Debug.Log(_gameObjectTag);
         System.Random random = new System.Random();
         int randomIndex = 0;
         if (_movement.IsMoving)
@@ -126,6 +122,5 @@ public class PlayerHumanAudio : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         _gameObjectTag = collision.gameObject.tag;
-        Debug.Log(_gameObjectTag);
     }
 }
