@@ -7,17 +7,21 @@ using UnityEngine;
 
 public class HumanController : MonoBehaviour
 {
+    #region Privates.
     [SerializeField] private Camera _camera;
     [SerializeField] private GameObject _cinemachine;
     [SerializeField] private CapsuleColliderSettings _normalCapsuleColliderSettings;
     [SerializeField] private CapsuleColliderSettings _knockedCapsuleColliderSettings;
-    [Header("Test Variables")]
-    [SerializeField] private bool _isKnocked = false;
     [SerializeField] private int _health = 100;
     private AudioListener _audioListener;
     private HumanMovement _humanMovement;
     private HumanAnimator _humanAnimator;
     private CapsuleCollider _collider;
+    #endregion
+    #region Publics.
+    public bool isKnocked = false;
+    #endregion
+    #region Assignings and other unity methods.
     private void Start()
     {
         _humanMovement = GetComponent<HumanMovement>();
@@ -29,11 +33,16 @@ public class HumanController : MonoBehaviour
     {
         HealthCheck();
     }
+    #endregion
+    #region Methods.
+    /// <summary>
+    /// Checks the health amount.
+    /// </summary>
     private void HealthCheck()
     {
-        if(_health <= 0 && !_isKnocked)
+        if((_health <= 0 && !isKnocked))
         {
-            _isKnocked = true;
+            isKnocked = true;
             gotKnocked.Invoke(this, EventArgs.Empty);
             _collider.center = _knockedCapsuleColliderSettings.Center;
             _collider.direction = (int)_knockedCapsuleColliderSettings.Direction;
@@ -50,7 +59,9 @@ public class HumanController : MonoBehaviour
     {
         _health -= DamageAmount;
     }
-
+    /// <summary>
+    /// Turns off all components to make the network work correctly.
+    /// </summary>
     public void DisableAllSelfComponents() 
     {
         _cinemachine.SetActive(false);
@@ -59,7 +70,8 @@ public class HumanController : MonoBehaviour
         _camera.enabled = false;
         _audioListener.enabled = false;
     }
-
+    #endregion
+    #region Properties.
     /// <summary>
     /// User health (Only-get).
     /// </summary>
@@ -70,8 +82,8 @@ public class HumanController : MonoBehaviour
             return _health; 
         } 
     }
-
-    #region Events
+    #endregion
+    #region Events.
     public event EventHandler gotKnocked;
     #endregion
 }

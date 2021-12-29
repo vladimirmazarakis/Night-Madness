@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 
 public class HumanMovement : MonoBehaviour
 {
+    #region Privates.
     [SerializeField] private float _movementSpeed = 5f;
+    [SerializeField] private float _knockedSpeed = 5f;
     [SerializeField] private float _sprintSpeed = 15f;
     [SerializeField] private float _rotationSpeed = 5f;
     [SerializeField] private Camera _camera;
@@ -18,8 +20,8 @@ public class HumanMovement : MonoBehaviour
     private InputMaster _inputMaster;
     private InputAction _movement;
     private HumanController _controller;
-
-    #region Assignings.
+    #endregion
+    #region Assignings and other unity methods.
     private void Awake()
     {
         _inputMaster = new InputMaster();
@@ -44,11 +46,6 @@ public class HumanMovement : MonoBehaviour
         _movement.Disable();
         _inputMaster.Human.Sprinting.Disable();
     }
-    #endregion
-
-    /// <summary>
-    /// Calling movement every frame.
-    /// </summary>
     private void Update()
     {
         if (_canMove)
@@ -56,17 +53,22 @@ public class HumanMovement : MonoBehaviour
             Movement();
         }
     }
-
-    #region Movement.
-    /// <summary>
-    /// Moves the character relative to camera.
-    /// </summary>
+    #endregion
+    #region Methods.
     private void Movement()
     {
         if (_isGrounded)
         {
             Vector2 movementInput = _movement.ReadValue<Vector2>();
-            var speed = _isSprinting ? _sprintSpeed : _movementSpeed;
+            float speed = 0;
+            if (!_controller.isKnocked)
+            {
+                speed = _isSprinting ? _sprintSpeed : _movementSpeed;
+            }
+            else
+            {
+                speed = _knockedSpeed;
+            }
             Vector3 movement = new Vector3();
             var speedX = speed * movementInput.x;
             var speedY = speed * movementInput.y;
@@ -99,8 +101,7 @@ public class HumanMovement : MonoBehaviour
         }
     }
     #endregion
-
-    #region Events
+    #region Events.
     private void OnGotKnocked(object sender, System.EventArgs e)
     {
         _canSprint = false;
@@ -128,7 +129,6 @@ public class HumanMovement : MonoBehaviour
         _isSprinting = false;
     }
     #endregion
-
     #region Properties
     public bool IsMoving
     {
@@ -153,5 +153,4 @@ public class HumanMovement : MonoBehaviour
         }
     }
     #endregion
-
 }

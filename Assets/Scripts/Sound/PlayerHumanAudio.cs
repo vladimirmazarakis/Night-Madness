@@ -6,45 +6,43 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerHumanAudio : MonoBehaviour
 {
+    #region Privates.
     #region StepSounds
-    [Header("Wood")]
     [SerializeField] private List<AudioClip> _woodSteps;
     [SerializeField] private List<AudioClip> _woodRunningSteps;
     [SerializeField] private List<AudioClip> _woodKnockedSteps;
-    [Header("Grass")]
     [SerializeField] private List<AudioClip> _grassSteps;
     [SerializeField] private List<AudioClip> _grassRunningSteps;
     [SerializeField] private List<AudioClip> _grassKnockedSteps;
-    [Header("Gravel")]
     [SerializeField] private List<AudioClip> _gravelSteps;
     [SerializeField] private List<AudioClip> _gravelRunningSteps;
     [SerializeField] private List<AudioClip> _gravelKnockedSteps;
-    [Header("Dirt")]
     [SerializeField] private List<AudioClip> _dirtSteps;
     [SerializeField] private List<AudioClip> _dirtRunningSteps;
     [SerializeField] private List<AudioClip> _dirtKnockedSteps;
     #endregion
-    [Header("Other settings")]
+    [Tooltip("Hello")]
     [Range(0,100)][SerializeField] private float _stepsSoundSmooth = 0.3f;
+    [SerializeField] private Transform _feetPosition;
+    [SerializeField] private float _feetCheckRayDistance = 0.5f;
     private string _gameObjectTag = null;
     private AudioSource _audioSource;
     private bool _playingSound = false;
     private HumanMovement _movement;
     private HumanController _controller;
-    private bool _isKnocked = false;
+    private CapsuleCollider _bodyCollider;
+    #endregion
+    #region Assignings and other unity methods.
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
         _movement = GetComponent<HumanMovement>();
         _controller = GetComponent<HumanController>();
-        _controller.gotKnocked += OnHumanGotKnocked;
-    }
-    private void OnHumanGotKnocked(object sender, System.EventArgs e)
-    {
-        _isKnocked = true;
+        _bodyCollider = GetComponent<CapsuleCollider>();
     }
     private void Update()
     {
+        GetGameObjectBelowFeet();
         if (!_movement.IsMoving && _audioSource.volume > 0)
         {
             AudioHelper.FadeOut(_audioSource, _stepsSoundSmooth);
@@ -54,6 +52,8 @@ public class PlayerHumanAudio : MonoBehaviour
             AudioHelper.FadeIn(_audioSource, _stepsSoundSmooth);
         }
     }
+    #endregion
+    #region Methods.
     public void PlayStepSound()
     {
         System.Random random = new System.Random();
@@ -64,7 +64,7 @@ public class PlayerHumanAudio : MonoBehaviour
             switch (_gameObjectTag)
             {
                 case "Wood":
-                    if (_isKnocked)
+                    if (_controller.isKnocked)
                     {
                         randomIndex = random.Next(_woodKnockedSteps.Count);
                         _audioSource.clip = _woodKnockedSteps[randomIndex];
@@ -77,7 +77,7 @@ public class PlayerHumanAudio : MonoBehaviour
                     _audioSource.Play();
                     break;
                 case "Grass":
-                    if (_isKnocked)
+                    if (_controller.isKnocked)
                     {
                         randomIndex = random.Next(_grassKnockedSteps.Count);
                         _audioSource.clip = _grassKnockedSteps[randomIndex];
@@ -90,20 +90,20 @@ public class PlayerHumanAudio : MonoBehaviour
                     _audioSource.Play();
                     break;
                 case "Gravel":
-                    if (_isKnocked)
+                    if (_controller.isKnocked)
                     {
                         randomIndex = random.Next(_gravelKnockedSteps.Count);
                         _audioSource.clip = _gravelKnockedSteps[randomIndex];
                     }
-                    else 
+                    else
                     {
-                    randomIndex = _movement.IsSprinting ? random.Next(_gravelRunningSteps.Count) : random.Next(_gravelSteps.Count);
-                    _audioSource.clip = _movement.IsSprinting ? _gravelRunningSteps[randomIndex] : _gravelSteps[randomIndex];
+                        randomIndex = _movement.IsSprinting ? random.Next(_gravelRunningSteps.Count) : random.Next(_gravelSteps.Count);
+                        _audioSource.clip = _movement.IsSprinting ? _gravelRunningSteps[randomIndex] : _gravelSteps[randomIndex];
                     }
                     _audioSource.Play();
                     break;
                 case "Dirt":
-                    if (_isKnocked)
+                    if (_controller.isKnocked)
                     {
                         randomIndex = random.Next(_dirtKnockedSteps.Count);
                         _audioSource.clip = _dirtKnockedSteps[randomIndex];
@@ -119,8 +119,14 @@ public class PlayerHumanAudio : MonoBehaviour
             _playingSound = false;
         }
     }
-    private void OnCollisionStay(Collision collision)
+    private void GetGameObjectBelowFeet()
     {
-        _gameObjectTag = collision.gameObject.tag;
+        Vector3 down = new Vector3(0,-1,0);
+        RaycastHit hit;
+        if(Physics.Raycast(_feetPosition.position, down, out hit, _feetCheckRayDistance))
+        {
+            _gameObjectTag = hit.transform.gameObject.tag;
+        }
     }
+    #endregion
 }
