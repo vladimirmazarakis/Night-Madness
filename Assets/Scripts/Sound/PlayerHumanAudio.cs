@@ -1,3 +1,4 @@
+using Assets.Scripts.Enums;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,7 +22,6 @@ public class PlayerHumanAudio : MonoBehaviour
     [SerializeField] private List<AudioClip> _dirtRunningSteps;
     [SerializeField] private List<AudioClip> _dirtKnockedSteps;
     #endregion
-    [Tooltip("Hello")]
     [Range(0,100)][SerializeField] private float _stepsSoundSmooth = 0.3f;
     [SerializeField] private Transform _feetPosition;
     [SerializeField] private float _feetCheckRayDistance = 0.5f;
@@ -58,7 +58,7 @@ public class PlayerHumanAudio : MonoBehaviour
     {
         System.Random random = new System.Random();
         int randomIndex = 0;
-        if (_movement.IsMoving)
+        if (_movement.IsMoving && _movement.HumanState != HumanState.isCrouching)
         {
             _playingSound = true;
             switch (_gameObjectTag)
@@ -121,11 +121,12 @@ public class PlayerHumanAudio : MonoBehaviour
     }
     private void GetGameObjectBelowFeet()
     {
-        Vector3 down = new Vector3(0,-1,0);
+        Vector3 down = new Vector3(0,-0.5f,0);
         RaycastHit hit;
         if(Physics.Raycast(_feetPosition.position, down, out hit, _feetCheckRayDistance))
         {
             _gameObjectTag = hit.transform.gameObject.tag;
+            Debug.Log(hit.transform.gameObject.name);
         }
     }
     #endregion

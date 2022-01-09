@@ -35,6 +35,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Crouching"",
+                    ""type"": ""Button"",
+                    ""id"": ""71490ca5-2050-4bfc-a572-85dd95f70a56"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -57,6 +66,28 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Sprinting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d39d988f-cfeb-4e1d-bf8e-15c0821da587"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Crouching"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f750674c-9e12-417d-8a14-ee13200433bf"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Crouching"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -293,6 +324,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         // Human
         m_Human = asset.FindActionMap("Human", throwIfNotFound: true);
         m_Human_Sprinting = m_Human.FindAction("Sprinting", throwIfNotFound: true);
+        m_Human_Crouching = m_Human.FindAction("Crouching", throwIfNotFound: true);
         // Shared
         m_Shared = asset.FindActionMap("Shared", throwIfNotFound: true);
         m_Shared_Movement = m_Shared.FindAction("Movement", throwIfNotFound: true);
@@ -360,11 +392,13 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Human;
     private IHumanActions m_HumanActionsCallbackInterface;
     private readonly InputAction m_Human_Sprinting;
+    private readonly InputAction m_Human_Crouching;
     public struct HumanActions
     {
         private @InputMaster m_Wrapper;
         public HumanActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Sprinting => m_Wrapper.m_Human_Sprinting;
+        public InputAction @Crouching => m_Wrapper.m_Human_Crouching;
         public InputActionMap Get() { return m_Wrapper.m_Human; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -377,6 +411,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Sprinting.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnSprinting;
                 @Sprinting.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnSprinting;
                 @Sprinting.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnSprinting;
+                @Crouching.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnCrouching;
+                @Crouching.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnCrouching;
+                @Crouching.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnCrouching;
             }
             m_Wrapper.m_HumanActionsCallbackInterface = instance;
             if (instance != null)
@@ -384,6 +421,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Sprinting.started += instance.OnSprinting;
                 @Sprinting.performed += instance.OnSprinting;
                 @Sprinting.canceled += instance.OnSprinting;
+                @Crouching.started += instance.OnCrouching;
+                @Crouching.performed += instance.OnCrouching;
+                @Crouching.canceled += instance.OnCrouching;
             }
         }
     }
@@ -483,6 +523,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     public interface IHumanActions
     {
         void OnSprinting(InputAction.CallbackContext context);
+        void OnCrouching(InputAction.CallbackContext context);
     }
     public interface ISharedActions
     {

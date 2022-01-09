@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Enums;
 using UnityEngine;
 
 [RequireComponent(typeof(HumanMovement), (typeof(HumanController)))]
@@ -12,6 +13,7 @@ public class HumanAnimator : MonoBehaviour
     private HumanMovement _humanMovement;
     private HumanController _controller;
     private float _knockedWeight = 0;
+    private float _crouchWeight = 0;
     #endregion
     #region Assignings and other unity methods.
     private void Start()
@@ -28,22 +30,31 @@ public class HumanAnimator : MonoBehaviour
     #region Methods.
     private void UpdateAnimations()
     {
-        if (_humanMovement.IsMoving)
+        _animator.SetBool("IsMoving", _humanMovement.IsMoving);
+        var crouchLayerIndex = _animator.GetLayerIndex("Crouch");
+        switch (_humanMovement.HumanState)
         {
-            _animator.SetBool("IsMoving", _humanMovement.IsMoving);
-            if (_humanMovement.IsSprinting)
-            {
-                _animator.SetBool("IsSprinting", _humanMovement.IsSprinting);
-            }
-            else
-            {
-                _animator.SetBool("IsSprinting", _humanMovement.IsSprinting);
-            }
-        }
-        else
-        {   
-            _animator.SetBool("IsMoving", _humanMovement.IsMoving);
-            _animator.SetBool("IsSprinting", _humanMovement.IsSprinting);
+            case HumanState.isSprinting:
+                if (_humanMovement.IsMoving)
+                {
+                    _animator.SetBool("IsSprinting", true);
+                }
+                else
+                {
+                    _animator.SetBool("IsSprinting", false);
+                }
+                break;
+            case HumanState.isCrouching:
+                crouchLayerIndex = _animator.GetLayerIndex("Crouch");
+                _crouchWeight = Mathf.Lerp(_crouchWeight, 1.0f, _animationLayerSmoothTime * Time.deltaTime);
+                _animator.SetLayerWeight(crouchLayerIndex, _crouchWeight);
+                break;
+            case HumanState.Default:
+                crouchLayerIndex = _animator.GetLayerIndex("Crouch");
+                _crouchWeight = Mathf.Lerp(_crouchWeight, 0.0f, _animationLayerSmoothTime * Time.deltaTime);
+                _animator.SetLayerWeight(crouchLayerIndex, _crouchWeight);
+                _animator.SetBool("IsSprinting", false);
+                break;
         }
         if (_controller.isKnocked)
         {
