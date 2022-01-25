@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class HumanMovement : MonoBehaviour
 {
     #region Privates.
+
+    [SerializeField] private Transform _movementRayPoint;
     [SerializeField] private float _movementSpeed = 2f;
     [SerializeField] private float _knockedSpeed = 0.75f;
     [SerializeField] private float _sprintSpeed = 5f;
@@ -33,6 +35,10 @@ public class HumanMovement : MonoBehaviour
     private void Awake()
     {
         _inputMaster = new InputMaster();
+        if (_movementRayPoint == null)
+        {
+            _movementRayPoint = transform;
+        }
     }
     private void Start()
     {
@@ -105,7 +111,7 @@ public class HumanMovement : MonoBehaviour
     private void MovementFilter(Vector3 rayDirection, Vector3 movement)
     {
         RaycastHit hit;
-        if(!Physics.Raycast(transform.position,rayDirection, 0.5f, _movementFilterLayerMask))
+        if(!Physics.Raycast(_movementRayPoint.position,rayDirection, 0.5f, _movementFilterLayerMask))
         {
             _rb.velocity = movement;
             _isMoving = (_rb.velocity.x > 0 || _rb.velocity.x < 0 || _rb.velocity.z > 0 || _rb.velocity.z < 0 && _isGrounded);

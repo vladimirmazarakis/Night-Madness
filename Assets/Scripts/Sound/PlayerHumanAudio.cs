@@ -126,7 +126,6 @@ public class PlayerHumanAudio : MonoBehaviour
         if(Physics.Raycast(_feetPosition.position, down, out hit, _feetCheckRayDistance))
         {
             _gameObjectTag = hit.transform.gameObject.tag;
-            Debug.Log(hit.transform.gameObject.name);
         }
     }
     #endregion
