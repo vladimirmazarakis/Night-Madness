@@ -5,18 +5,21 @@ using UnityEngine;
 public class KillerMeshWrapper : MonoBehaviour
 {
     private KillerController _killerController;
+    private PlayerKillerAudio _killerAudio;
 
     private void Start()
     {
         _killerController = GetComponentInParent<KillerController>();
+        _killerAudio = GetComponentInParent<PlayerKillerAudio>();
     }
 
-    /// <summary>
-    /// Performs KillerController's Attack method.
-    /// </summary>
     public void Attack()
     {
-        Debug.Log("Started attacking...");
         _killerController.Attack();
+    }
+
+    public void PlayStepSound() 
+    { 
+        _killerAudio.PlayStepSound();
     }
 }

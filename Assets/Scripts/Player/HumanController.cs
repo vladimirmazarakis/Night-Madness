@@ -1,3 +1,5 @@
+using Assets.Scripts.Attributes;
+using Assets.Scripts.Enums;
 using Assets.Scripts.Models;
 using Mirror;
 using System;
@@ -7,19 +9,28 @@ using UnityEngine;
 
 public class HumanController : MonoBehaviour
 {
-    #region Privates.
+    #region General
+    [Header("General")]
+    [SerializeField] private LayerMask _groundLayerMask;
     [SerializeField] private Camera _camera;
     [SerializeField] private GameObject _cinemachine;
-    [SerializeField] private CapsuleColliderSettings _normalCapsuleColliderSettings;
-    [SerializeField] private CapsuleColliderSettings _knockedCapsuleColliderSettings;
-    [SerializeField] private int _health = 100;
     private AudioListener _audioListener;
     private HumanMovement _humanMovement;
     private HumanAnimator _humanAnimator;
+    #endregion
+    #region Collider Settings
+    [Header("Collider Settings")]
+    [SerializeField] private CapsuleColliderSettings _normalCapsuleColliderSettings;
+    [SerializeField] private CapsuleColliderSettings _knockedCapsuleColliderSettings;
     private CapsuleCollider _collider;
     #endregion
-    #region Publics.
-    public bool isKnocked = false;
+    #region Player Info
+    [Header("Player Info")]
+    [SerializeField] private Transform _groundCheck;
+    [SerializeField]/*[ReadOnly]*/ private int _health = 100;
+    [HideInInspector] public HumanState humanState;
+    [HideInInspector] public bool isKnocked = false;
+    [HideInInspector] public bool isGrounded = false;
     #endregion
     #region Assignings and other unity methods.
     private void Start()
@@ -32,12 +43,22 @@ public class HumanController : MonoBehaviour
     private void Update()
     {
         HealthCheck();
+        GroundCheck();
     }
     #endregion
-    #region Methods.
-    /// <summary>
-    /// Checks the health amount.
-    /// </summary>
+    #region Checks
+    private void GroundCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_groundCheck.position, Vector3.down, out hit, 0.5f)) 
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
     private void HealthCheck()
     {
         if((_health <= 0 && !isKnocked))
@@ -50,31 +71,14 @@ public class HumanController : MonoBehaviour
             _collider.height = _knockedCapsuleColliderSettings.Height;
         }
     }
-
-    /// <summary>
-    /// Subtracts from the health the given amount.
-    /// </summary>
-    /// <param name="DamageAmount">The amount to subtract from the health.</param>
+    #endregion
+    #region Controller
     public void GiveDamage(int DamageAmount)
     {
         _health -= DamageAmount;
     }
-    /// <summary>
-    /// Turns off all components to make the network work correctly.
-    /// </summary>
-    public void DisableAllSelfComponents() 
-    {
-        _cinemachine.SetActive(false);
-        _humanMovement.enabled = false;
-        _humanAnimator.enabled = false;
-        _camera.enabled = false;
-        _audioListener.enabled = false;
-    }
     #endregion
     #region Properties.
-    /// <summary>
-    /// User health (Only-get).
-    /// </summary>
     public int Health 
     { 
         get 

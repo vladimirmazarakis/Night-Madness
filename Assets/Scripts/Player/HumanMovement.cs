@@ -1,13 +1,12 @@
 using Assets.Scripts.Enums;
-using Mirror;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HumanMovement : MonoBehaviour
+[RequireComponent(typeof(Rigidbody), typeof(HumanController))]
+public class HumanMovement : MonoBehaviour, IMoveable
 {
-    #region Privates.
-
+    #region Movement Settings
+    [Header("Movement Settings")]
     [SerializeField] private Transform _movementRayPoint;
     [SerializeField] private float _movementSpeed = 2f;
     [SerializeField] private float _knockedSpeed = 0.75f;
@@ -15,30 +14,23 @@ public class HumanMovement : MonoBehaviour
     [SerializeField] private float _crouchSpeed = 1f;
     [SerializeField] private float _rotationSpeed = 5f;
     [SerializeField] private LayerMask _movementFilterLayerMask;
+    [SerializeField] private LayerMask _groundLayerMask;
     [SerializeField] private Camera _camera;
+
     private Rigidbody _rb;
-    private bool _isGrounded = true;
+    private RaycastHit _slopeHit;
     private bool _canMove = true;
-    private bool _isSprinting = false;
     private bool _canSprint = true;
-    private bool _isCrouching = false;
     private bool _canCrouch = true;
     private bool _isMoving = false;
     private InputMaster _inputMaster;
     private InputAction _movement;
     private HumanController _controller;
     #endregion
-    #region Publics.
-    public HumanState HumanState;
-    #endregion
     #region Assignings and other unity methods.
     private void Awake()
     {
         _inputMaster = new InputMaster();
-        if (_movementRayPoint == null)
-        {
-            _movementRayPoint = transform;
-        }
     }
     private void Start()
     {
@@ -57,30 +49,55 @@ public class HumanMovement : MonoBehaviour
         _inputMaster.Human.Sprinting.Enable();
         _inputMaster.Human.Crouching.Enable();
     }
-
     private void OnDisable()
     {
         _movement.Disable();
         _inputMaster.Human.Sprinting.Disable();
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (_canMove)
         {
-            Movement();
+            Move();
         }
     }
-    #endregion
-    #region Methods.
-    private void Movement()
+    private void Update()
     {
-        if (_isGrounded)
+        MovementCheck();
+    }
+    #endregion
+    #region Movement
+    private bool OnSlope() 
+    {
+        if(Physics.Raycast(transform.position, Vector3.down, out _slopeHit, _groundLayerMask))
+        {
+            if(_slopeHit.normal != Vector3.up)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void Move()
+    {
+        if (_controller.isGrounded)
         {
             Vector2 movementInput = _movement.ReadValue<Vector2>();
+            if (movementInput.x == 0 && movementInput.y == 0) 
+            {
+                _isMoving = false;
+            }
             float speed = 0;
             if (!_controller.isKnocked)
             {
-                switch (HumanState)
+                switch (_controller.humanState)
                 {
                     case HumanState.Default:
                         speed = _movementSpeed;
@@ -107,14 +124,20 @@ public class HumanMovement : MonoBehaviour
             movement.y = _rb.velocity.y;
             MovementFilter(movementNoSpeed, movement);
         }
+        else
+        {
+            BlockMovement();
+        }
     }
     private void MovementFilter(Vector3 rayDirection, Vector3 movement)
     {
-        RaycastHit hit;
         if(!Physics.Raycast(_movementRayPoint.position,rayDirection, 0.5f, _movementFilterLayerMask))
         {
+            if (OnSlope())
+            {
+                movement = Vector3.ProjectOnPlane(movement, _slopeHit.normal);
+            }
             _rb.velocity = movement;
-            _isMoving = (_rb.velocity.x > 0 || _rb.velocity.x < 0 || _rb.velocity.z > 0 || _rb.velocity.z < 0 && _isGrounded);
             if (rayDirection != Vector3.zero)
             {
                 Quaternion rotation = Quaternion.LookRotation(rayDirection);
@@ -124,13 +147,33 @@ public class HumanMovement : MonoBehaviour
         }
         else if(Physics.Raycast(transform.position, rayDirection, 0.5f, _movementFilterLayerMask) && _isMoving)
         {
-            _movement.Reset();
-            _isMoving = false;
-            _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
+            ResetMovement();
         }
     }
+    private void MovementCheck()
+    {
+        Vector2 movement = _movement.ReadValue<Vector2>();
+        if (_controller.isGrounded)
+        {
+            _isMoving = (movement.x > 0 || movement.x < 0 || movement.y > 0 || movement.y < 0) ? true : false;
+        }
+        else
+        {
+            _isMoving = false;
+        }
+    }
+    private void ResetMovement()
+    {
+        _movement.Reset();
+        _isMoving = false;
+        _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
+    }
+    private void BlockMovement()
+    {
+        _movement.Reset();
+    }
     #endregion
-    #region Events.
+    #region Events
     private void OnGotKnocked(object sender, System.EventArgs e)
     {
         _canSprint = false;
@@ -140,31 +183,31 @@ public class HumanMovement : MonoBehaviour
     {
         if (_canSprint)
         {
-            HumanState = HumanState.isSprinting;
+            _controller.humanState = HumanState.isSprinting;
         }
         else
         {
-            HumanState = HumanState.Default;
+            _controller.humanState = HumanState.Default;
         }
     }
     private void Sprinting_canceled(InputAction.CallbackContext obj)
     {
-        HumanState = HumanState.Default;
+        _controller.humanState = HumanState.Default;
     }
     private void Crouching_performed(InputAction.CallbackContext obj)
     {
         if (_canCrouch)
         {
-            HumanState = HumanState.isCrouching;
+            _controller.humanState = HumanState.isCrouching;
         }
         else
         {
-            HumanState = HumanState.Default;
+            _controller.humanState = HumanState.Default;
         }
     }
     private void Crouching_canceled(InputAction.CallbackContext obj)
     {
-        HumanState = HumanState.Default;
+        _controller.humanState = HumanState.Default;
     }
     #endregion
     #region Properties
@@ -179,13 +222,13 @@ public class HumanMovement : MonoBehaviour
     {
         get
         {
-            if (!IsMoving && HumanState == HumanState.isSprinting)
+            if (!IsMoving && _controller.humanState == HumanState.isSprinting)
             {
                 return false;
             }
             else
             {
-                return HumanState == HumanState.isSprinting;
+                return _controller.humanState == HumanState.isSprinting;
             }
         }
     }
@@ -193,13 +236,13 @@ public class HumanMovement : MonoBehaviour
     {
         get 
         {
-            if(!IsMoving && HumanState == HumanState.isCrouching)
+            if(!IsMoving && _controller.humanState == HumanState.isCrouching)
             {
                 return false;
             }
             else
             {
-                return HumanState == HumanState.isCrouching;
+                return _controller.humanState == HumanState.isCrouching;
             }
         } 
     }
