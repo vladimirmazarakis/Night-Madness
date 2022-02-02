@@ -7,19 +7,28 @@ using UnityEngine.InputSystem;
 
 public class KillerController : MonoBehaviour
 {
+    #region General
+    [Header("General")]
+    [SerializeField] private Transform _groundCheck;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _cinemachine;
+    private InputMaster _inputMaster;
+    private KillerMovement _killerMovement;
+    #endregion 
+    #region Attack Settings
     [Header("Attack Settings")]
     [SerializeField] private LayerMask _attackRayLayerMask;
     [SerializeField] private Transform _attackRayOrigin;
     [SerializeField] private float _attackDelay = 1f;
     [SerializeField] private float _attackRadius = 0.5f;
     [SerializeField] private int _damage = 100;
-    [SerializeField] private Camera _camera;
-    [SerializeField] private GameObject _cinemachine;
-    private InputMaster _inputMaster;
-    private InputAction _attack;
     private bool _isAttacking = false;
     private bool _canAttack = true;
-    private KillerMovement _killerMovement;
+    private InputAction _attack;
+    #endregion
+    #region Player Info
+    [HideInInspector] public bool isGrounded = true;
+    #endregion
     #region Assignings.
     private void Awake()
     {
@@ -37,6 +46,10 @@ public class KillerController : MonoBehaviour
     private void OnDisable()
     {
         _attack.Disable();
+    }
+    private void Update()
+    {
+        GroundCheck();
     }
     #endregion
     #region Attack
@@ -97,7 +110,20 @@ public class KillerController : MonoBehaviour
         }
     }
     #endregion
-
+    #region Checks
+    private void GroundCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_groundCheck.position, Vector3.down, out hit, 0.5f))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
+    #endregion
     public void DisableAllSelfComponents()
     {
         _cinemachine.SetActive(false);
@@ -107,7 +133,6 @@ public class KillerController : MonoBehaviour
         GetComponent<KillerNetworkAnimator>().enabled = false;
         _camera.enabled = false;
     }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

@@ -30,41 +30,48 @@ public class HumanAnimator : MonoBehaviour
     #region Methods.
     private void UpdateAnimations()
     {
-        _animator.SetBool("IsMoving", _humanMovement.IsMoving);
-        var crouchLayerIndex = _animator.GetLayerIndex("Crouch");
-        switch (_humanMovement.HumanState)
+        if (_controller.isGrounded)
         {
-            case HumanState.isSprinting:
-                if (_humanMovement.IsMoving)
-                {
-                    _animator.SetBool("IsSprinting", true);
-                }
-                else
-                {
+            _animator.SetBool("IsMoving", _humanMovement.IsMoving);
+            var crouchLayerIndex = _animator.GetLayerIndex("Crouch");
+            switch (_controller.humanState)
+            {
+                case HumanState.isSprinting:
+                    if (_humanMovement.IsMoving)
+                    {
+                        _animator.SetBool("IsSprinting", true);
+                    }
+                    else
+                    {
+                        _animator.SetBool("IsSprinting", false);
+                    }
+                    break;
+                case HumanState.isCrouching:
+                    crouchLayerIndex = _animator.GetLayerIndex("Crouch");
+                    _crouchWeight = Mathf.Lerp(_crouchWeight, 1.0f, _animationLayerSmoothTime * Time.deltaTime);
+                    _animator.SetLayerWeight(crouchLayerIndex, _crouchWeight);
+                    break;
+                case HumanState.Default:
+                    crouchLayerIndex = _animator.GetLayerIndex("Crouch");
+                    _crouchWeight = Mathf.Lerp(_crouchWeight, 0.0f, _animationLayerSmoothTime * Time.deltaTime);
+                    _animator.SetLayerWeight(crouchLayerIndex, _crouchWeight);
                     _animator.SetBool("IsSprinting", false);
-                }
-                break;
-            case HumanState.isCrouching:
-                crouchLayerIndex = _animator.GetLayerIndex("Crouch");
-                _crouchWeight = Mathf.Lerp(_crouchWeight, 1.0f, _animationLayerSmoothTime * Time.deltaTime);
-                _animator.SetLayerWeight(crouchLayerIndex, _crouchWeight);
-                break;
-            case HumanState.Default:
-                crouchLayerIndex = _animator.GetLayerIndex("Crouch");
-                _crouchWeight = Mathf.Lerp(_crouchWeight, 0.0f, _animationLayerSmoothTime * Time.deltaTime);
-                _animator.SetLayerWeight(crouchLayerIndex, _crouchWeight);
+                    break;
+            }
+            if (_controller.isKnocked)
+            {
                 _animator.SetBool("IsSprinting", false);
-                break;
+            }
+            if (_controller.isKnocked && _knockedWeight != 1)
+            {
+                var knockedLayerIndex = _animator.GetLayerIndex("Knocked");
+                _knockedWeight = Mathf.Lerp(_knockedWeight, 1.0f, _animationLayerSmoothTime * Time.deltaTime);
+                _animator.SetLayerWeight(knockedLayerIndex, _knockedWeight);
+            }
         }
-        if (_controller.isKnocked)
+        else
         {
-            _animator.SetBool("IsSprinting", false);
-        }
-        if(_controller.isKnocked && _knockedWeight != 1) 
-        {
-            var knockedLayerIndex = _animator.GetLayerIndex("Knocked");
-            _knockedWeight = Mathf.Lerp(_knockedWeight, 1.0f, _animationLayerSmoothTime * Time.deltaTime);
-            _animator.SetLayerWeight(knockedLayerIndex, _knockedWeight);
+            //Falling animation
         }
     }
     #endregion

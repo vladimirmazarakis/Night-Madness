@@ -12,8 +12,17 @@ namespace Assets.Scripts.Interfaces
     /// </summary>
     public interface IColliderSettings
     {
+        /// <summary>
+        /// Defines if the Collider is trigger or not.
+        /// </summary>
         public bool IsTrigger { get; set; }
+        /// <summary>
+        /// Defines the Collider's physic material.
+        /// </summary>
         public PhysicMaterial PhysicMaterial { get; set; }
+        /// <summary>
+        /// The center of the collider.
+        /// </summary>
         public Vector3 Center { get; set; }
     }
 }

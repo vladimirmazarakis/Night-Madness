@@ -1,17 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class KillerMovement : MonoBehaviour
+[RequireComponent(typeof(Rigidbody), typeof(KillerController))]
+public class KillerMovement : MonoBehaviour, IMoveable
 {
+    [SerializeField] private Transform _movementRayPoint;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private Camera _camera;
+    [SerializeField] private LayerMask _groundLayerMask;
+    [SerializeField] private LayerMask _movementIgnoreLayerMask;
 
     private Rigidbody _rb;
-    private bool _isGrounded = true;
     private bool _isMoving = false;
     private InputMaster _inputMaster;
     private InputAction _movement;
     private InputAction _look;
+    private KillerController _controller;
+    private RaycastHit _slopeHit;
 
     #region Assignings.
     private void Awake()
@@ -21,6 +27,7 @@ public class KillerMovement : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _controller = GetComponent<KillerController>();
     }
     private void OnEnable()
     {
@@ -31,25 +38,40 @@ public class KillerMovement : MonoBehaviour
     {
         _movement.Disable();
     }
-    #endregion
-
-    /// <summary>
-    /// Calling movement every frame.
-    /// </summary>
+    private void FixedUpdate()
+    {
+        Move();
+    }
     private void Update()
     {
-        Movement();
+        MovementCheck();
     }
-
-    #region Movement.
-    /// <summary>
-    /// Moves the character relative to camera.
-    /// </summary>
-    private void Movement()
+    #endregion
+    #region Movement
+    private bool OnSlope()
     {
-        if (_isGrounded)
+        if (Physics.Raycast(transform.position, Vector3.down, out _slopeHit, _groundLayerMask))
+        {
+            if (_slopeHit.normal != Vector3.up)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void Move()
+    {
+        if (_controller.isGrounded)
         {
             Vector2 movementInput = _movement.ReadValue<Vector2>();
+            movementInput.x = 0;
             if((_rb.velocity.x == 0 && _rb.velocity.z == 0) && (movementInput.x == 0 && movementInput.y == 0))
             {
                 return;
@@ -65,20 +87,43 @@ public class KillerMovement : MonoBehaviour
             movement.y = _rb.velocity.y;
             MovementFilter(movementNoSpeed, movement);
         }
+        else
+        {
+            BlockMovement();
+        }
     }
     private void MovementFilter(Vector3 rayDirection, Vector3 movement)
     {
-        if(!Physics.Raycast(transform.position,rayDirection, 0.5f))
+        var hit = Physics.Raycast(_movementRayPoint.position, rayDirection, 0.5f, _movementIgnoreLayerMask);
+        if(!hit)
         {
+            if (OnSlope())
+            {
+                movement = Vector3.ProjectOnPlane(movement, _slopeHit.normal);
+            }
             _rb.velocity = movement;
-            _isMoving = (_rb.velocity.x > 0 || _rb.velocity.x < 0 || _rb.velocity.z > 0 || _rb.velocity.z < 0 && _isGrounded);
         }
-        else if(Physics.Raycast(transform.position, rayDirection, 0.5f) && _isMoving)
+        else if(hit && _isMoving)
         {
             _movement.Reset();
             _isMoving = false;
             _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
         }
+    }
+    private void MovementCheck()
+    {
+        Vector3 movement = _movement.ReadValue<Vector2>();
+        _isMoving = (movement.y > 0 || movement.y < 0 && _controller.isGrounded);
+    }
+    private void ResetMovement()
+    {
+        _movement.Reset();
+        _isMoving = false;
+        _rb.velocity = new Vector3(0, _rb.velocity.y, 0);
+    }
+    private void BlockMovement()
+    {
+        _movement.Reset();
     }
     #endregion
 
