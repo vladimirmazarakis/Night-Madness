@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.hwaet.projectcloner": {
+      "version": "https://github.com/hwaet/UnityProjectCloner.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "03574fbe08f90d9482056b06f99c4072aa6b3920"
+    },
     "com.unity.animation.rigging": {
       "version": "1.0.3",
       "depth": 0,
@@ -62,7 +69,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.4",
+      "version": "1.2.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {},

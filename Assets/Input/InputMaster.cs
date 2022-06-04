@@ -44,6 +44,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""3246fe57-5389-4939-ad00-fdc0a1afb204"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,61 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""action"": ""Crouching"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""f9d10631-960e-493c-b8f5-745d7f05b2e1"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""25d468a4-30e4-4675-a545-f606cf3ce53c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""d97a10af-ef3e-4711-a606-d1bc0a996fcb"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""07b604be-bc9a-4e86-92f1-07cb9d38a678"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ab7b43ff-0b89-4ebc-a95e-3a2d1a9d4ef9"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -97,15 +161,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
             ""name"": ""Shared"",
             ""id"": ""cd2269e7-97e6-4e0b-98ea-5bb211fd9aca"",
             ""actions"": [
-                {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""c203a169-4045-460e-b095-a34bfd3722a7"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
                 {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
@@ -117,116 +172,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""bcbd7ec6-47da-4286-b048-7db8fc6cda09"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""6b24038c-40c3-4e6d-afc7-affa12898c12"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""0ba578ef-8ab3-4fff-87f2-8e0d8e503281"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""22f4038c-b7f8-4394-8e9c-9dd649a0b922"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""fbb0da88-b247-41d3-8f86-22d67e521918"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Left Stick"",
-                    ""id"": ""a6d27d97-fc74-4c17-a6cc-4977e98e7d44"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""8241dea7-8c02-4ee0-b49b-829c8f83472a"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""299ef9ba-d1cf-43bc-825d-2d5657bdddd1"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""dd74ba23-eac6-444e-85ac-400ade896ff2"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""8e16854f-dcda-40e9-9281-55418bcb7795"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""91435fc6-7d2d-4181-863f-0f5474099e32"",
@@ -325,9 +270,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         m_Human = asset.FindActionMap("Human", throwIfNotFound: true);
         m_Human_Sprinting = m_Human.FindAction("Sprinting", throwIfNotFound: true);
         m_Human_Crouching = m_Human.FindAction("Crouching", throwIfNotFound: true);
+        m_Human_Movement = m_Human.FindAction("Movement", throwIfNotFound: true);
         // Shared
         m_Shared = asset.FindActionMap("Shared", throwIfNotFound: true);
-        m_Shared_Movement = m_Shared.FindAction("Movement", throwIfNotFound: true);
         m_Shared_Look = m_Shared.FindAction("Look", throwIfNotFound: true);
         // Killer
         m_Killer = asset.FindActionMap("Killer", throwIfNotFound: true);
@@ -393,12 +338,14 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private IHumanActions m_HumanActionsCallbackInterface;
     private readonly InputAction m_Human_Sprinting;
     private readonly InputAction m_Human_Crouching;
+    private readonly InputAction m_Human_Movement;
     public struct HumanActions
     {
         private @InputMaster m_Wrapper;
         public HumanActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Sprinting => m_Wrapper.m_Human_Sprinting;
         public InputAction @Crouching => m_Wrapper.m_Human_Crouching;
+        public InputAction @Movement => m_Wrapper.m_Human_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Human; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -414,6 +361,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Crouching.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnCrouching;
                 @Crouching.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnCrouching;
                 @Crouching.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnCrouching;
+                @Movement.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnMovement;
             }
             m_Wrapper.m_HumanActionsCallbackInterface = instance;
             if (instance != null)
@@ -424,6 +374,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Crouching.started += instance.OnCrouching;
                 @Crouching.performed += instance.OnCrouching;
                 @Crouching.canceled += instance.OnCrouching;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
             }
         }
     }
@@ -432,13 +385,11 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     // Shared
     private readonly InputActionMap m_Shared;
     private ISharedActions m_SharedActionsCallbackInterface;
-    private readonly InputAction m_Shared_Movement;
     private readonly InputAction m_Shared_Look;
     public struct SharedActions
     {
         private @InputMaster m_Wrapper;
         public SharedActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Shared_Movement;
         public InputAction @Look => m_Wrapper.m_Shared_Look;
         public InputActionMap Get() { return m_Wrapper.m_Shared; }
         public void Enable() { Get().Enable(); }
@@ -449,9 +400,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_SharedActionsCallbackInterface != null)
             {
-                @Movement.started -= m_Wrapper.m_SharedActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_SharedActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_SharedActionsCallbackInterface.OnMovement;
                 @Look.started -= m_Wrapper.m_SharedActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_SharedActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_SharedActionsCallbackInterface.OnLook;
@@ -459,9 +407,6 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
             m_Wrapper.m_SharedActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
@@ -524,10 +469,10 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     {
         void OnSprinting(InputAction.CallbackContext context);
         void OnCrouching(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
     public interface ISharedActions
     {
-        void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
     }
     public interface IKillerActions
